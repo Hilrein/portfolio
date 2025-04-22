@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="darkreader-lock">
     <title>Мои проекты</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,6 +147,20 @@
                 flex: 0 0 100%; /* 1 проект в ряд на маленьких экранах */
                 width: 100%;
             }
+            
+            /* Фиксированное положение кнопок на мобильных устройствах */
+            .nav-button {
+                position: fixed;
+                top: 50%;
+            }
+            
+            .nav-button.prev {
+                left: 5px;
+            }
+            
+            .nav-button.next {
+                right: 5px;
+            }
         }
 
         /* Скрыть скроллбар для разных браузеров */
@@ -171,7 +186,7 @@
             <div class="projects-grid" id="projectsGrid">
                 <div class="project-item">
                     <div class="project-image">
-                        <img src="/projects/project1.jpg" alt="Веб-приложение для управления задачами">
+                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364277226958356572/1f1626e947f630e10edd31ddd445e76bb32d9bd3-1743763846.jpg?ex=680915ad&is=6807c42d&hm=41e0277e89f02dc60d958635a962d1b10fc0e185ae46f4fd1fdbd810fb925397&=&format=webp&width=524&height=902" alt="Веб-приложение для управления задачами">
                         <div class="project-overlay">
                             <h3>ay.bur</h3>
                         </div>
@@ -189,7 +204,7 @@
                 
                 <div class="project-item">
                     <div class="project-image">
-                        <img src="/projects/project2.jpg" alt="Портфолио">
+                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364277227470196736/999321ecfa13d8958c8114973b89fb7445881513-1726133666.jpg?ex=680915ae&is=6807c42e&hm=9324d590f13a7ed1809080bb3ecf4e5485c26e74bba2963ee9d54c4d88a19775&=&format=webp&width=466&height=902" alt="Портфолио">
                         <div class="project-overlay">
                             <h3>Портфолио</h3>
                         </div>
@@ -206,7 +221,7 @@
                 
                 <div class="project-item">
                     <div class="project-image">
-                        <img src="/projects/project3.jpg" alt="Автокредит">
+                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364277227994218496/d789962524ff8c722c456cb261a20a185fdd2319-1716367196.jpg?ex=680915ae&is=6807c42e&hm=d5fdefcacc16289c843b438cc18cad2ac93d18c5af6b29120d0992fdcd9387ea&=&format=webp&width=273&height=902" alt="Автокредит">
                         <div class="project-overlay">
                             <h3>Автокредит</h3>
                         </div>
@@ -224,7 +239,7 @@
                 
                 <div class="project-item">
                     <div class="project-image">
-                        <img src="/projects/project4.jpg" alt="Портфолио">
+                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364277226635530250/dd40ed9e829934f567e48fbae5f1b90abeb52063-1628940997.jpg?ex=680915ad&is=6807c42d&hm=03e31d3b9affb1b9968ecf979a19f3ac376970ccb1b9673847d6b98ff8989ed0&=&format=webp&width=691&height=902" alt="Портфолио">
                         <div class="project-overlay">
                             <h3>Портфолио</h3>
                         </div>
@@ -241,7 +256,7 @@
                 
                 <div class="project-item">
                     <div class="project-image">
-                        <img src="/projects/project5.png" alt="Ai Tools">
+                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364277234164301885/Screenshot_2025-04-17_at_12-19-06_AI_Tools.png?ex=680915af&is=6807c42f&hm=52b42c6dd177dc5851432d9e668907de4e13942d63707b4f867e6568cdac1ab0&=&format=webp&quality=lossless&width=533&height=1006" alt="Ai Tools">
                         <div class="project-overlay">
                             <h3>Ai Tools</h3>
                         </div>
@@ -264,6 +279,8 @@
                             <h3>имя</h3>
                         </div>
                     </div> -->
+            </div>
+        </div>
         
         <button class="nav-button next" id="nextBtn">
             <i class="fas fa-chevron-right"></i>
@@ -298,6 +315,10 @@
                 const maxPosition = items.length - itemsPerRow;
                 nextBtn.style.opacity = position >= maxPosition ? '0.5' : '1';
                 nextBtn.disabled = position >= maxPosition;
+                
+                // Показываем/скрываем кнопки навигации в зависимости от позиции
+                prevBtn.style.display = position <= 0 ? 'none' : 'flex';
+                nextBtn.style.display = position >= maxPosition ? 'none' : 'flex';
             }
             
             function moveSlider() {

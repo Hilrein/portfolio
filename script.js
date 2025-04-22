@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const nav = document.querySelector('nav');
     const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('section');
-    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-    const navMenu = document.querySelector('.nav-menu');
     const revealElements = document.querySelectorAll('.reveal');
     const backToTop = document.querySelector('.back-to-top');
     const skillsSection = document.getElementById('skills');
@@ -86,10 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             behavior: 'smooth'
                         });
                         
-                        if (navMenu.classList.contains('active')) {
-                            toggleMobileMenu();
-                        }
-                        
                         history.pushState(null, null, targetId);
                     }
                 }
@@ -106,12 +100,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 el.classList.add('active');
             }
         });
-    }
-    
-    function toggleMobileMenu() {
-        mobileMenuToggle.classList.toggle('active');
-        navMenu.classList.toggle('active');
-        document.body.classList.toggle('no-scroll');
     }
     
     function animateSkillsProgress() {
@@ -245,10 +233,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
         window.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', handleReveal);
-        
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-        }
         
         setupSmoothScroll();
         
