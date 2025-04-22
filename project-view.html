@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Просмотр проекта</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .project-view-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            position: relative;
+        }
+        
+        .fullscreen-view {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .project-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+            cursor: default;
+        }
+        
+        .click-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            padding: 10px 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        
+        .instructions.fadeout {
+            opacity: 0;
+        }
+        
+        .project-info-sidebar {
+            width: 300px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 30px 20px;
+            overflow-y: auto;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .project-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--accent-color, #4169e1);
+            line-height: 1.2;
+        }
+        
+        .project-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .project-tech-title {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .project-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .project-tag {
+            background-color: var(--accent-color, #4169e1);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            transition: all 0.2s ease;
+        }
+        
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .toggle-sidebar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            display: none;
+        }
+        
+        .toggle-sidebar:hover {
+            background-color: var(--accent-color, #4169e1);
+        }
+        
+        @media (max-width: 1024px) {
+            .project-info-sidebar {
+                position: absolute;
+                right: 0;
+                top: 0;
+                z-index: 5;
+                transform: translateX(100%);
+            }
+            
+            .toggle-sidebar {
+                display: flex;
+            }
+            
+            .project-info-sidebar.active {
+                transform: translateX(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .project-info-sidebar {
+                width: 280px;
+            }
+            
+            .instructions {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+            
+            .project-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .project-info-sidebar {
+                width: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="project-view-container">
+        <div class="fullscreen-view">
+            <div id="clickArea" class="click-area"></div>
+            <img id="projectImage" class="project-image" src="" alt="Изображение проекта">
+            <div id="instructions" class="instructions">Нажмите в любом месте вне изображения, чтобы вернуться</div>
+            <button id="toggleSidebar" class="toggle-sidebar">
+                <i class="fas fa-info-circle"></i>
+            </button>
+        </div>
+        
+        <div id="projectInfoSidebar" class="project-info-sidebar">
+            <h1 id="projectTitle" class="project-title"></h1>
+            <p id="projectDescription" class="project-description"></p>
+            
+            <h3 class="project-tech-title">Использованные технологии:</h3>
+            <div id="projectTags" class="project-tags-container"></div>
+            
+            <button id="backButton" class="back-button">
+                <i class="fas fa-arrow-left"></i> Вернуться к проектам
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const projectImage = document.getElementById('projectImage');
+            const clickArea = document.getElementById('clickArea');
+            const instructions = document.getElementById('instructions');
+            const projectTitle = document.getElementById('projectTitle');
+            const projectDescription = document.getElementById('projectDescription');
+            const projectTags = document.getElementById('projectTags');
+            const backButton = document.getElementById('backButton');
+            const toggleSidebar = document.getElementById('toggleSidebar');
+            const projectInfoSidebar = document.getElementById('projectInfoSidebar');
+            
+            // Получаем URL параметры
+            const urlParams = new URLSearchParams(window.location.search);
+            const imageSrc = urlParams.get('src');
+            const imageAlt = urlParams.get('alt');
+            const title = urlParams.get('title');
+            const description = urlParams.get('description');
+            const tags = urlParams.get('tags');
+            
+            // Устанавливаем изображение
+            if (imageSrc) {
+                projectImage.src = decodeURIComponent(imageSrc);
+                if (imageAlt) {
+                    projectImage.alt = decodeURIComponent(imageAlt);
+                }
+                
+                // Устанавливаем заголовок документа
+                if (title) {
+                    const decodedTitle = decodeURIComponent(title);
+                    document.title = decodedTitle + ' - Просмотр проекта';
+                    projectTitle.textContent = decodedTitle;
+                }
+                
+                // Устанавливаем описание
+                if (description) {
+                    projectDescription.textContent = decodeURIComponent(description);
+                }
+                
+                // Устанавливаем теги
+                if (tags) {
+                    try {
+                        const tagsArray = JSON.parse(decodeURIComponent(tags));
+                        tagsArray.forEach(tag => {
+                            if (tag) {
+                                const tagElement = document.createElement('span');
+                                tagElement.className = 'project-tag';
+                                tagElement.textContent = tag;
+                                projectTags.appendChild(tagElement);
+                            }
+                        });
+                    } catch (e) {
+                        console.error('Ошибка при обработке тегов:', e);
+                    }
+                }
+            } else {
+                // Если нет параметра с источником изображения, возвращаемся на страницу проектов
+                window.location.href = 'projects.html';
+            }
+            
+            // Автоматическое скрытие инструкций через 3 секунды
+            setTimeout(() => {
+                instructions.classList.add('fadeout');
+            }, 3000);
+            
+            // Возврат на предыдущую страницу при клике вне изображения
+            clickArea.addEventListener('click', (e) => {
+                // Проверяем, был ли клик непосредственно на области вокруг изображения
+                if (e.target === clickArea) {
+                    window.location.href = 'projects.html';
+                }
+            });
+            
+            // Предотвращаем клик на само изображение от срабатывания
+            projectImage.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+            
+            // Обработка клавиши Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    window.location.href = 'projects.html';
+                }
+            });
+            
+            // Обработчик кнопки возврата к проектам
+            backButton.addEventListener('click', () => {
+                window.location.href = 'projects.html';
+            });
+            
+            // Переключение боковой панели на мобильных устройствах
+            toggleSidebar.addEventListener('click', () => {
+                projectInfoSidebar.classList.toggle('active');
+            });
+            
+            // Поддержка жеста смахивания для мобильных устройств
+            let touchStartY = 0;
+            let touchEndY = 0;
+            
+            document.addEventListener('touchstart', (e) => {
+                touchStartY = e.changedTouches[0].screenY;
+            });
+            
+            document.addEventListener('touchend', (e) => {
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                // Смахивание вниз
+                if (touchEndY - touchStartY > 100) {
+                    window.location.href = 'projects.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

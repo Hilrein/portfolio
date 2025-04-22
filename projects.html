@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои проекты</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            overflow-y: hidden; /* Предотвращает вертикальную прокрутку */
+        }
+        
+        .projects-section {
+            padding: 0;
+            background: transparent;
+            overflow: hidden;
+        }
+        
+        .section-title {
+            display: none;
+        }
+
+        .projects-container {
+            position: relative;
+            overflow: hidden; /* Скрывает прокрутку по обоим осям */
+            padding: 20px 0;
+            width: 100%;
+            height: auto;
+        }
+        
+        .projects-wrapper {
+            width: 100%;
+            overflow: hidden;
+            height: auto;
+        }
+        
+        .projects-grid {
+            display: flex;
+            width: 100%;
+            position: relative;
+            transition: transform 0.5s ease;
+            height: auto;
+        }
+        
+        .project-item {
+            flex: 0 0 calc(100% / 3); /* Показываем по 3 проекта на строке */
+            width: calc(100% / 3);
+            padding: 0 10px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            height: auto;
+            cursor: pointer; /* Добавляем курсор-указатель при наведении */
+        }
+        
+        .project-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            background-color: var(--accent-color-hover);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .nav-button.prev {
+            left: 10px;
+        }
+        
+        .nav-button.next {
+            right: 10px;
+        }
+
+        /* Стили для изображений и текста */
+        .project-image {
+            height: 160px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top; /* Показываем только верхнюю часть изображения */
+        }
+        
+        .project-info h4 {
+            font-size: 0.9rem;
+            margin: 10px 0 5px;
+        }
+        
+        .project-info p {
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 5px;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow: hidden;
+            gap: 5px;
+        }
+
+        .project-tag {
+            font-size: 0.6rem;
+            padding: 2px 5px;
+        }
+        
+        @media (max-width: 992px) {
+            .project-item {
+                flex: 0 0 calc(100% / 2); /* 2 проекта в ряд на средних экранах */
+                width: calc(100% / 2);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .project-item {
+                flex: 0 0 100%; /* 1 проект в ряд на маленьких экранах */
+                width: 100%;
+            }
+        }
+
+        /* Скрыть скроллбар для разных браузеров */
+        /* Chrome, Safari и Opera */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* IE, Edge и Firefox */
+        html {
+            -ms-overflow-style: none;  /* IE и Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body>
+    <div class="projects-container">
+        <button class="nav-button prev" id="prevBtn">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="projects-wrapper">
+            <div class="projects-grid" id="projectsGrid">
+                <div class="project-item">
+                    <div class="project-image">
+                        <img src="/projects/project1.jpg" alt="Веб-приложение для управления задачами">
+                        <div class="project-overlay">
+                            <h3>ay.bur</h3>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h4>ay.bur</h4>
+                        <p>Веб-сайт для компании занимающейся дизайном и интерьерами</p>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Next.js</span>
+                            <span class="project-tag">Firebase</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-item">
+                    <div class="project-image">
+                        <img src="/projects/project2.jpg" alt="Портфолио">
+                        <div class="project-overlay">
+                            <h3>Портфолио</h3>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h4>Портфолио</h4>
+                        <p>Сайт портфолио</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML</span>
+                            <span class="project-tag">CSS</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-item">
+                    <div class="project-image">
+                        <img src="/projects/project3.jpg" alt="Автокредит">
+                        <div class="project-overlay">
+                            <h3>Автокредит</h3>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h4>Автокредит</h4>
+                        <p>Веб-сайт для компании занимающейся автокредитованием</p>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Next.js</span>
+                            <span class="project-tag">MySQL</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-item">
+                    <div class="project-image">
+                        <img src="/projects/project4.jpg" alt="Портфолио">
+                        <div class="project-overlay">
+                            <h3>Портфолио</h3>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h4>Портфолио</h4>
+                        <p>Сайт портфолио</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML</span>
+                            <span class="project-tag">CSS</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-item">
+                    <div class="project-image">
+                        <img src="/projects/project5.png" alt="Ai Tools">
+                        <div class="project-overlay">
+                            <h3>Ai Tools</h3>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h4>Ai Tools</h4>
+                        <p>Веб-сайт с разными AI инструментами</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Django</span>
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">React</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="project-item">
+                    <div class="project-image">
+                        <img src="/projects/project6.jpg" alt="имя">
+                        <div class="project-overlay">
+                            <h3>имя</h3>
+                        </div>
+                    </div> -->
+        
+        <button class="nav-button next" id="nextBtn">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('wheel', function(event) {
+                event.preventDefault();
+            }, { passive: false });
+            
+            const grid = document.getElementById('projectsGrid');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const items = document.querySelectorAll('.project-item');
+            
+            let position = 0;
+            
+            let itemsPerRow = getItemsPerRow();
+            
+            function getItemsPerRow() {
+                if (window.innerWidth <= 576) return 1;
+                if (window.innerWidth <= 992) return 2;
+                return 3; 
+            }
+            
+            function updateButtonStates() {
+                prevBtn.style.opacity = position <= 0 ? '0.5' : '1';
+                prevBtn.disabled = position <= 0;
+                
+                const maxPosition = items.length - itemsPerRow;
+                nextBtn.style.opacity = position >= maxPosition ? '0.5' : '1';
+                nextBtn.disabled = position >= maxPosition;
+            }
+            
+            function moveSlider() {
+                const itemWidth = 100 / itemsPerRow; 
+                grid.style.transform = `translateX(-${position * itemWidth}%)`;
+                updateButtonStates();
+            }
+            
+            prevBtn.addEventListener('click', () => {
+                if (position > 0) {
+                    position = Math.max(0, position - itemsPerRow);
+                    moveSlider();
+                }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                const maxPosition = items.length - itemsPerRow;
+                if (position < maxPosition) {
+                    position = Math.min(maxPosition, position + itemsPerRow);
+                    moveSlider();
+                }
+            });
+            
+            window.addEventListener('resize', () => {
+                const newItemsPerRow = getItemsPerRow();
+                if (newItemsPerRow !== itemsPerRow) {
+                    itemsPerRow = newItemsPerRow;
+                    position = 0;
+                    moveSlider();
+                }
+            });
+            
+            updateButtonStates();
+        });
+    </script>
+    
+    <script src="project-gallery.js"></script>
+</body>
+</html> 
