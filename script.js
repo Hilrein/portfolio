@@ -207,26 +207,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Восстанавливаем функцию setupSkillTabs
     function setupSkillTabs() {
         const skillTabs = document.querySelectorAll('.skill-tab');
         const skillCategories = document.querySelectorAll('.skill-category');
         
-        if (skillTabs.length > 0) {
+        if (skillTabs.length > 0 && skillCategories.length > 0) { // Добавлена проверка на skillCategories
             skillTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
+                    // Убираем класс 'active' у всех табов и категорий
                     skillTabs.forEach(t => t.classList.remove('active'));
-                    
-                    tab.classList.add('active');
-                    
-                    const targetCategory = tab.getAttribute('data-target');
-                    
                     skillCategories.forEach(category => {
                         category.classList.remove('active');
                     });
                     
-                    document.getElementById(targetCategory).classList.add('active');
+                    // Добавляем класс 'active' к нажатому табу и соответствующей категории
+                    tab.classList.add('active');
+                    const targetId = tab.getAttribute('data-target');
+                    const targetCategory = document.getElementById(targetId);
+                    if (targetCategory) { // Проверяем, что элемент найден
+                       targetCategory.classList.add('active');
+                    }
                 });
             });
+            
+            // Инициализация: Убеждаемся, что первая категория активна при загрузке
+            // (Эта часть может быть уже сделана через HTML, но для надежности)
+            let hasActiveCategory = false;
+            skillCategories.forEach(category => {
+                if (category.classList.contains('active')) {
+                    hasActiveCategory = true;
+                }
+            });
+            if (!hasActiveCategory) {
+                skillCategories[0].classList.add('active');
+                skillTabs[0].classList.add('active');
+            }
         }
     }
     
@@ -241,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         setupParallaxEffect();
                 
-        setupSkillTabs();
+        setupSkillTabs(); // Раскомментируем вызов
                 
         handleMissingImages();
         
@@ -266,6 +282,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     init();
+
+    // Функция для подстройки высоты iframe
+    function resizeIframe() {
+        const iframe = document.querySelector('.projects-iframe');
+        if (iframe && iframe.contentWindow && iframe.contentWindow.document.body) {
+            // Устанавливаем небольшую задержку, чтобы дать Swiper инициализироваться
+            setTimeout(() => {
+                const newHeight = iframe.contentWindow.document.body.scrollHeight;
+                if (newHeight > 0) { // Убедимся, что высота посчитана
+                    iframe.style.height = newHeight + 'px';
+                }
+            }, 150); // Задержка в 150мс
+        }
+    }
+
+    // Вызываем функцию при загрузке страницы и при изменении размера окна
+    const projectsIframe = document.querySelector('.projects-iframe');
+    if (projectsIframe) {
+        projectsIframe.addEventListener('load', resizeIframe);
+        window.addEventListener('resize', resizeIframe); 
+        // Также можно добавить вызов resizeIframe при смене слайда Swiper, если это необходимо
+    }
 });
 
 function handleMissingImages() {
@@ -296,49 +334,6 @@ function handleMissingImages() {
         img.src = img.src;
     });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
-    
-    smoothScrollLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 60,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-
-    const yearSpan = document.querySelector('.current-year');
-    if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
-    }
-    
-    const animateOnScroll = () => {
-        const elements = document.querySelectorAll('.fade-in');
-        
-        elements.forEach(element => {
-            const elementPosition = element.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-            
-            if (elementPosition < windowHeight - 100) {
-                element.classList.add('visible');
-            }
-        });
-    };
-    
-    window.addEventListener('scroll', animateOnScroll);
-    animateOnScroll();
-});
 
 // Переключение темной/светлой темы (если нужно)
 const themeToggle = document.querySelector('.theme-toggle');

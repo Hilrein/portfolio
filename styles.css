@@ -271,16 +271,16 @@ nav .container {
 @media (max-width: 768px) {
     nav {
         padding: calc(var(--spacing-unit) * 2) 0;
-    }
-    
+}
+
     .nav-logo {
         font-size: 1.1rem;
-    }
-    
+}
+
     .nav-menu {
         gap: 10px;
-    }
-    
+}
+
     .nav-menu .nav-link {
         font-size: 14px;
         padding: 5px;
@@ -290,12 +290,12 @@ nav .container {
 @media (max-width: 576px) {
     .container {
         padding: 0 10px;
-    }
-    
+}
+
     .nav-menu {
         gap: 5px;
-    }
-    
+}
+
     .nav-menu .nav-link {
         font-size: 12px;
         padding: 3px;
@@ -666,7 +666,7 @@ header p {
 .skill-tab::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: -1px; /* Поднимаем линию подчеркивания на 1px */
     left: 0;
     width: 0;
     height: 3px;
@@ -687,12 +687,14 @@ header p {
 }
 
 .skills-content {
+    /* Возвращаем position: relative и min-height */
     position: relative;
-    min-height: 350px;
-    overflow: visible;
+    min-height: 350px; 
+    overflow: hidden; /* Скрываем неактивные */
 }
 
 .skill-category {
+    /* Возвращаем абсолютное позиционирование и анимацию */
     position: absolute;
     top: 0;
     left: 0;
@@ -700,17 +702,27 @@ header p {
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
-    transition: all 0.2s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s;
+    /* Убираем отступ, т.к. они теперь накладываются */
+    margin-bottom: 0; 
 }
 
+/* Восстанавливаем стиль для активной категории */
 .skill-category.active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+    transition-delay: 0s;
 }
+
+/* Убираем стили для заголовков h3, т.к. они удалены */
+/* .skill-category h3 { ... } */
+/* .skill-category h3::after { ... } */
+
 
 .skills-grid {
     display: grid;
+    /* Возвращаем исходное количество колонок */
     grid-template-columns: repeat(5, 1fr);
     gap: calc(var(--spacing-unit) * 3);
 }
@@ -796,38 +808,54 @@ header p {
     }
     
     .skills-grid {
+        /* Возвращаем 2 колонки */
         grid-template-columns: repeat(2, 1fr);
-        overflow: visible;
-        gap: 15px;
+        gap: 20px; 
     }
     
     .skills-content {
-        min-height: 400px; /* Увеличиваем высоту контейнера на мобильных */
-        overflow: visible;
+        /* Возможно, нужно будет снова увеличить min-height, если контент не влезает */
+         min-height: 400px; 
     }
     
-    .skill-category {
-        overflow: visible;
-        position: relative; /* Меняем на relative для мобильных устройств */
-        height: auto; /* Автоматическая высота */
+    /* Возвращаем стили для мобильных табов */
+    .skills-tabs {
+        flex-wrap: wrap;
+        padding-bottom: 0; /* Убираем нижний паддинг у контейнера табов */
     }
     
-    .skill-item {
-        padding: 10px;
+    .skill-tab {
+        padding: calc(var(--spacing-unit)) calc(var(--spacing-unit) * 1.5);
+        font-size: 0.9rem;
+        flex-grow: 1;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color); /* Добавляем разделитель */
+    }
+    .skill-tab::after {
+        bottom: -1px; /* Корректируем положение линии */
+    }
+
+    .skill-tab:last-child {
+        border-bottom: none; /* Убираем разделитель у последнего таба */
     }
     
-    .skill-icon {
-        width: 50px;
-        height: 50px;
-        margin-bottom: 10px;
+    .skills-content {
+        /* Возможно, нужно будет снова увеличить min-height, если контент не влезает */
+         min-height: 400px; 
+    }
+
+    /* .skill-category h3 { font-size: 1.3rem; } - Удаляем */
+
+    .key-fact {
+        padding: calc(var(--spacing-unit) * 1.5);
     }
     
-    .skill-icon i {
-        font-size: 22px;
+    .project-content {
+        padding: calc(var(--spacing-unit) * 2);
     }
     
-    .skill-name {
-        font-size: 0.75rem;
+    .project-preview {
+        padding-bottom: 70%;
     }
 }
 
@@ -1671,18 +1699,10 @@ footer {
     }
     
     .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     }
     
-    .skills-tabs {
-        flex-wrap: wrap;
-    }
-    
-    .skill-tab {
-        padding: calc(var(--spacing-unit)) calc(var(--spacing-unit) * 1.5);
-        font-size: 0.9rem;
-        flex-grow: 1;
-        text-align: center;
+    .skills-content {
     }
     
     .key-fact {

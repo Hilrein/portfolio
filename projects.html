@@ -10,392 +10,404 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            --accent-color: #4A90E2;
+            --accent-color-hover: #357ABD;
+            --accent-color-rgb: 74, 144, 226;
+            --text-color: #333;
+            --bg-color: #fff;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background: transparent;
-            overflow-y: hidden; 
         }
-        
+
         .projects-section {
-            padding: 0;
-            background: transparent;
-            overflow: hidden;
-        }
-        
-        .section-title {
-            display: none;
+            position: relative;
+            padding: 40px 0;
         }
 
         .projects-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0;
             position: relative;
-            overflow: hidden;
-            padding: 1px 0;
-            width: 100%;
-            height: 500px;
-        }
-        
-        .projects-wrapper {
-            width: 100%;
-            overflow: hidden;
-            height: auto;
-        }
-        
-        .projects-grid {
-            display: flex;
-            width: 100%;
-            position: relative;
-            transition: transform 0.5s ease;
-            height: auto;
-        }
-        
-        .project-item {
-            flex: 0 0 calc(100% / 3); 
-            width: calc(100% / 3);
-            padding: 0 10px;
             box-sizing: border-box;
-            transition: all 0.3s ease;
+        }
+
+        .swiper {
+            width: 100%;
             height: auto;
-            cursor: pointer; 
+            overflow: hidden;
+            padding: 10px 0;
         }
-        
-        .project-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .nav-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
+
+        .swiper-slide {
+            height: auto;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 0 5px;
         }
-        
-        .nav-button:hover {
-            background-color: var(--accent-color-hover);
-            transform: translateY(-50%) scale(1.1);
+
+        .project-item-content {
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
         }
-        
-        .nav-button.prev {
-            left: 10px;
-        }
-        
-        .nav-button.next {
-            right: 10px;
+
+        .project-item-content:hover {
+            transform: translateY(-5px);
         }
 
         .project-image {
-            height: 160px;
+            height: 200px;
             position: relative;
             overflow: hidden;
         }
-        
+
         .project-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center top; 
+            object-position: center top;
+            transition: transform 0.4s ease;
         }
-        
+
+        .project-item-content:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-info {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
         .project-info h4 {
-            font-size: 0.9rem;
-            margin: 10px 0 5px;
+            font-size: 1.1rem;
+            margin: 0 0 8px 0;
+            color: var(--text-color);
+            font-weight: 600;
         }
-        
+
         .project-info p {
-            font-size: 0.8rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0 0 15px 0;
+            line-height: 1.4;
+            flex-grow: 1;
         }
-        
+
         .project-tags {
             display: flex;
-            flex-wrap: nowrap;
-            overflow: hidden;
-            gap: 5px;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: auto;
         }
 
         .project-tag {
-            font-size: 0.6rem;
-            padding: 2px 5px;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            color: #555;
         }
-        
-        @media (max-width: 992px) {
-            .project-item {
-                flex: 0 0 calc(100% / 2); 
-                width: calc(100% / 2);
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            color: var(--accent-color) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            transform: translateY(-50%) scale(1.1);
+            color: var(--accent-color-hover) !important;
+        }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .swiper-button-next {
+            right: clamp(15px, 5vw, 80px);
+        }
+
+        .swiper-button-prev {
+            left: clamp(15px, 5vw, 80px);
+        }
+
+        .swiper-pagination {
+            position: static;
+            margin-top: 30px;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+
+        .swiper-pagination-bullet {
+            background: #ccc;
+            opacity: 0.7;
+            width: 10px;
+            height: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: var(--accent-color);
+            opacity: 1;
+            width: 12px;
+            height: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .swiper-button-next,
+            .swiper-button-prev {
+                width: 40px;
+                height: 40px;
+            }
+            .swiper-button-next::after,
+            .swiper-button-prev::after {
+                font-size: 16px;
+            }
+            .project-image {
+                height: 180px;
             }
         }
-        
+
         @media (max-width: 576px) {
-            .project-item {
-                flex: 0 0 100%; 
-                width: 100%;
+            .swiper-button-next,
+            .swiper-button-prev {
+                display: none;
             }
-            
-            .nav-button {
-                position: fixed;
-                top: 50%;
+            .projects-container {
+                padding: 0 5px;
             }
-            
-            .nav-button.prev {
-                left: 5px;
-            }
-            
-            .nav-button.next {
-                right: 5px;
+            .project-image {
+                height: 160px;
             }
         }
 
         ::-webkit-scrollbar {
             display: none;
         }
-        
         html {
             -ms-overflow-style: none;
-            scrollbar-width: none;  
+            scrollbar-width: none;
         }
     </style>
 </head>
 <body>
-    <div class="projects-container">
-        <button class="nav-button prev" id="prevBtn">
-            <i class="fas fa-chevron-left"></i>
-        </button>
+    <div class="projects-section">
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
         
-        <div class="projects-wrapper">
-            <div class="projects-grid" id="projectsGrid">
-                <div class="project-item">
-                    <div class="project-image">
-                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364277226958356572/1f1626e947f630e10edd31ddd445e76bb32d9bd3-1743763846.jpg?ex=680915ad&is=6807c42d&hm=41e0277e89f02dc60d958635a962d1b10fc0e185ae46f4fd1fdbd810fb925397&=&format=webp&width=524&height=902" alt="ay.bur">
-                        <div class="project-overlay">
-                            <h3>ay.bur</h3>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <h4>ay.bur</h4>
-                        <p>Веб-сайт для компании занимающейся дизайном и интерьерами</p>
-                        <div class="project-tags">
-                            <span class="project-tag">React</span>
-                            <span class="project-tag">Next.js</span>
-                            <span class="project-tag">Firebase</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-item">
-                    <div class="project-image">
-                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364277227470196736/999321ecfa13d8958c8114973b89fb7445881513-1726133666.jpg?ex=680915ae&is=6807c42e&hm=9324d590f13a7ed1809080bb3ecf4e5485c26e74bba2963ee9d54c4d88a19775&=&format=webp&width=466&height=902" alt="Портфолио">
-                        <div class="project-overlay">
-                            <h3>Портфолио</h3>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <h4>Портфолио</h4>
-                        <p>Сайт портфолио</p>
-                        <div class="project-tags">
-                            <span class="project-tag">HTML</span>
-                            <span class="project-tag">CSS</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-item">
-                    <div class="project-image">
-                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364277227994218496/d789962524ff8c722c456cb261a20a185fdd2319-1716367196.jpg?ex=680915ae&is=6807c42e&hm=d5fdefcacc16289c843b438cc18cad2ac93d18c5af6b29120d0992fdcd9387ea&=&format=webp&width=273&height=902" alt="Автокредит">
-                        <div class="project-overlay">
-                            <h3>Автокредит</h3>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <h4>Автокредит</h4>
-                        <p>Веб-сайт для компании занимающейся автокредитованием</p>
-                        <div class="project-tags">
-                            <span class="project-tag">React</span>
-                            <span class="project-tag">Next.js</span>
-                            <span class="project-tag">MySQL</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-item">
-                    <div class="project-image">
-                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364277226635530250/dd40ed9e829934f567e48fbae5f1b90abeb52063-1628940997.jpg?ex=680915ad&is=6807c42d&hm=03e31d3b9affb1b9968ecf979a19f3ac376970ccb1b9673847d6b98ff8989ed0&=&format=webp&width=691&height=902" alt="Портфолио">
-                        <div class="project-overlay">
-                            <h3>Портфолио</h3>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <h4>Портфолио</h4>
-                        <p>Сайт портфолио</p>
-                        <div class="project-tags">
-                            <span class="project-tag">HTML</span>
-                            <span class="project-tag">CSS</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-item">
-                    <div class="project-image">
-                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364277234164301885/Screenshot_2025-04-17_at_12-19-06_AI_Tools.png?ex=680915af&is=6807c42f&hm=52b42c6dd177dc5851432d9e668907de4e13942d63707b4f867e6568cdac1ab0&=&format=webp&quality=lossless&width=533&height=1006" alt="Ai Tools">
-                        <div class="project-overlay">
-                            <h3>Ai Tools</h3>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <h4>Ai Tools</h4>
-                        <p>Веб-сайт с разными AI инструментами</p>
-                        <div class="project-tags">
-                            <span class="project-tag">Django</span>
-                            <span class="project-tag">Python</span>
-                            <span class="project-tag">React</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-item">
-                    <div class="project-image">
-                        <img src="https://media.discordapp.net/attachments/1364277165746688002/1364490587805323314/214ead0db4b4bd680d9019e1581064095927918c-1742852833.jpg?ex=6809dc63&is=68088ae3&hm=c7e81a9989d91089ffa191479c2909a14f09237755350d43dd9d841ee236b82f&=&format=webp" alt="Клуб ММА">
-                        <div class="project-overlay">
-                            <h3>Клуб ММА</h3>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <h4>Клуб ММА</h4>
-                        <p>Веб-сайт для боксерского клуба</p>
-                            <div class="project-tags">
-                                <span class="project-tag">HTML</span>
-                                <span class="project-tag">CSS</span>
-                                <span class="project-tag">JavaScript</span>
+        <div class="projects-container">
+            <div class="swiper projectsSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="project-item-content">
+                            <div class="project-image">
+                                <img src="/images/1.jpg" alt="ay.bur">
                             </div>
+                            <div class="project-info">
+                                <h4>ay.bur</h4>
+                                <p>Веб-сайт для компании занимающейся дизайном и интерьерами</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">React</span>
+                                    <span class="project-tag">Next.js</span>
+                                    <span class="project-tag">Firebase</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-            </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="project-item-content">
+                            <div class="project-image">
+                                <img src="/images/2.jpg" alt="Портфолио">
+                            </div>
+                            <div class="project-info">
+                                <h4>Портфолио</h4>
+                                <p>Сайт портфолио</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">HTML</span>
+                                    <span class="project-tag">CSS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="project-item-content">
+                            <div class="project-image">
+                                <img src="/images/3.jpg" alt="Автокредит">
+                            </div>
+                            <div class="project-info">
+                                <h4>Автокредит</h4>
+                                <p>Веб-сайт для компании занимающейся автокредитованием</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">React</span>
+                                    <span class="project-tag">Next.js</span>
+                                    <span class="project-tag">MySQL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="project-item-content">
+                            <div class="project-image">
+                                <img src="/images/4.jpg" alt="Портфолио">
+                            </div>
+                            <div class="project-info">
+                                <h4>Портфолио</h4>
+                                <p>Сайт портфолио</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">HTML</span>
+                                    <span class="project-tag">CSS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="project-item-content">
+                            <div class="project-image">
+                                <img src="/images/5.png" alt="Ai Tools">
+                            </div>
+                            <div class="project-info">
+                                <h4>Ai Tools</h4>
+                                <p>Веб-сайт с разными AI инструментами</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">Django</span>
+                                    <span class="project-tag">Python</span>
+                                    <span class="project-tag">React</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="project-item-content">
+                            <div class="project-image">
+                                <img src="/images/6.jpg" alt="Клуб ММА">
+                            </div>
+                            <div class="project-info">
+                                <h4>Клуб ММА</h4>
+                                <p>Веб-сайт для боксерского клуба</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">HTML</span>
+                                    <span class="project-tag">CSS</span>
+                                    <span class="project-tag">JavaScript</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="project-item">
-                <div class="project-image">
-                    <img src="https://media.discordapp.net/attachments/1364277165746688002/1364490587256000594/2489b0446a78990dee51e6db579fcc9b18bd0d68-1742852602.jpg?ex=6809dc63&is=68088ae3&hm=3da2ca77115d34e4756c71da441cb30e248303401443afdbdd75dfa75e20607f&=&format=webp" alt="Кофе машина">
-                    <div class="project-overlay">
-                        <h3>Кофе машина</h3>
+                    <div class="swiper-slide">
+                        <div class="project-item-content">
+                            <div class="project-image">
+                                <img src="/images/7.jpg" alt="Кофе машина">
+                            </div>
+                            <div class="project-info">
+                                <h4>Кофе машина</h4>
+                                <p>Веб-сайт для кофе машины</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">HTML</span>
+                                    <span class="project-tag">CSS</span>
+                                    <span class="project-tag">JavaScript</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="project-info">
-                    <h4>Кофе машина</h4>
-                    <p>Веб-сайт для кофе машины</p>
-                    <div class="project-tags">
-                        <span class="project-tag">HTML</span>
-                        <span class="project-tag">CSS</span>
-                        <span class="project-tag">JavaScript</span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="project-item">
-                <div class="project-image">
-                    <img src="https://media.discordapp.net/attachments/1364277165746688002/1364491809786560602/cdd935609a5e0c7deb260dbdaae0dcd96d7569a4-1719322896.jpg?ex=6809dd86&is=68088c06&hm=cb4ace6e3ec3b20d3d2a1d748d268b38688dbe5c6f1929c701d67768ff900bd5&=&format=webp&width=584&height=1006" alt="Таргет">
-                    <div class="project-overlay">
-                        <h3>Лендинг</h3>
-                    </div>
-                </div>
-                <div class="project-info">
-                    <h4>Лендинг</h4>
-                    <p>Веб-сайт лендинг по таргетированной рекламе</p>
-                    <div class="project-tags">
-                        <span class="project-tag">HTML</span>
-                        <span class="project-tag">CSS</span>
-                        <span class="project-tag">JavaScript</span>
+                    <div class="swiper-slide">
+                        <div class="project-item-content">
+                            <div class="project-image">
+                                <img src="/images/8.jpg" alt="Таргет">
+                            </div>
+                            <div class="project-info">
+                                <h4>Лендинг</h4>
+                                <p>Веб-сайт лендинг по таргетированной рекламе</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">HTML</span>
+                                    <span class="project-tag">CSS</span>
+                                    <span class="project-tag">JavaScript</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            
+            <div class="swiper-pagination"></div>
         </div>
-        
-        <button class="nav-button next" id="nextBtn">
-            <i class="fas fa-chevron-right"></i>
-        </button>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            document.addEventListener('wheel', function(event) {
-                event.preventDefault();
-            }, { passive: false });
-            
-            const grid = document.getElementById('projectsGrid');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const items = document.querySelectorAll('.project-item');
-            
-            let position = 0;
-            
-            let itemsPerRow = getItemsPerRow();
-            
-            function getItemsPerRow() {
-                if (window.innerWidth <= 576) return 1;
-                if (window.innerWidth <= 992) return 2;
-                return 3; 
-            }
-            
-            function updateButtonStates() {
-                prevBtn.style.opacity = position <= 0 ? '0.5' : '1';
-                prevBtn.disabled = position <= 0;
-                
-                const maxPosition = items.length - itemsPerRow;
-                nextBtn.style.opacity = position >= maxPosition ? '0.5' : '1';
-                nextBtn.disabled = position >= maxPosition;
-                
-                // Показываем/скрываем кнопки навигации в зависимости от позиции
-                prevBtn.style.display = position <= 0 ? 'none' : 'flex';
-                nextBtn.style.display = position >= maxPosition ? 'none' : 'flex';
-            }
-            
-            function moveSlider() {
-                const itemWidth = 100 / itemsPerRow; 
-                grid.style.transform = `translateX(-${position * itemWidth}%)`;
-                updateButtonStates();
-            }
-            
-            prevBtn.addEventListener('click', () => {
-                if (position > 0) {
-                    position = Math.max(0, position - itemsPerRow);
-                    moveSlider();
+            const swiper = new Swiper(".projectsSwiper", {
+                slidesPerView: 1,
+                spaceBetween: 15,
+                loop: true,
+                grabCursor: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                breakpoints: {
+                    576: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    992: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    }
                 }
             });
-            
-            nextBtn.addEventListener('click', () => {
-                const maxPosition = items.length - itemsPerRow;
-                if (position < maxPosition) {
-                    position = Math.min(maxPosition, position + itemsPerRow);
-                    moveSlider();
-                }
-            });
-            
-            window.addEventListener('resize', () => {
-                const newItemsPerRow = getItemsPerRow();
-                if (newItemsPerRow !== itemsPerRow) {
-                    itemsPerRow = newItemsPerRow;
-                    position = 0;
-                    moveSlider();
-                }
-            });
-            
-            updateButtonStates();
         });
     </script>
-    
-    <script src="project-gallery.js"></script>
 </body>
 </html> 
