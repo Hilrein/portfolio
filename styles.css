@@ -689,7 +689,7 @@ header p {
 .skills-content {
     /* Возвращаем position: relative и min-height */
     position: relative;
-    min-height: 350px; 
+    min-height: 350px;
     overflow: hidden; /* Скрываем неактивные */
 }
 
