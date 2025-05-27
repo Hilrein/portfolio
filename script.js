@@ -149,7 +149,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     formButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
                     formButton.disabled = true;
                     
-                    // Имитация отправки формы (в реальном проекте здесь будет fetch или другой метод)
                     setTimeout(() => {
                         formButton.innerHTML = '<i class="fas fa-check"></i> Сообщение отправлено';
                         formButton.classList.add('success');
@@ -207,32 +206,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Восстанавливаем функцию setupSkillTabs
     function setupSkillTabs() {
         const skillTabs = document.querySelectorAll('.skill-tab');
         const skillCategories = document.querySelectorAll('.skill-category');
         
-        if (skillTabs.length > 0 && skillCategories.length > 0) { // Добавлена проверка на skillCategories
+        if (skillTabs.length > 0 && skillCategories.length > 0) { 
             skillTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    // Убираем класс 'active' у всех табов и категорий
                     skillTabs.forEach(t => t.classList.remove('active'));
                     skillCategories.forEach(category => {
                         category.classList.remove('active');
                     });
                     
-                    // Добавляем класс 'active' к нажатому табу и соответствующей категории
                     tab.classList.add('active');
                     const targetId = tab.getAttribute('data-target');
                     const targetCategory = document.getElementById(targetId);
-                    if (targetCategory) { // Проверяем, что элемент найден
+                    if (targetCategory) { 
                        targetCategory.classList.add('active');
                     }
                 });
             });
             
-            // Инициализация: Убеждаемся, что первая категория активна при загрузке
-            // (Эта часть может быть уже сделана через HTML, но для надежности)
             let hasActiveCategory = false;
             skillCategories.forEach(category => {
                 if (category.classList.contains('active')) {
@@ -257,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         setupParallaxEffect();
                 
-        setupSkillTabs(); // Раскомментируем вызов
+        setupSkillTabs(); 
                 
         handleMissingImages();
         
@@ -283,31 +277,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
     init();
 
-    // Функция для подстройки высоты iframe
     function resizeIframe() {
         const iframe = document.querySelector('.projects-iframe');
         if (iframe && iframe.contentWindow && iframe.contentWindow.document.body) {
-            // Устанавливаем небольшую задержку, чтобы дать Swiper инициализироваться
             setTimeout(() => {
                 const newHeight = iframe.contentWindow.document.body.scrollHeight;
-                if (newHeight > 0) { // Убедимся, что высота посчитана
+                if (newHeight > 0) { 
                     iframe.style.height = newHeight + 'px';
                 }
-            }, 150); // Задержка в 150мс
+            }, 150); 
         }
     }
 
-    // Вызываем функцию при загрузке страницы и при изменении размера окна
     const projectsIframe = document.querySelector('.projects-iframe');
     if (projectsIframe) {
         projectsIframe.addEventListener('load', resizeIframe);
         window.addEventListener('resize', resizeIframe); 
-        // Также можно добавить вызов resizeIframe при смене слайда Swiper, если это необходимо
     }
 });
 
 function handleMissingImages() {
-    // Профиль фото
     const profilePhoto = document.querySelector('.profile-photo');
     if (profilePhoto) {
         profilePhoto.onerror = function() {
@@ -318,7 +307,6 @@ function handleMissingImages() {
         profilePhoto.src = profilePhoto.src;
     }
     
-    // Изображения проектов
     const projectImages = document.querySelectorAll('.device-mockup');
     const placeholderColors = ['3498db', 'e74c3c', '2ecc71', 'f39c12'];
     
@@ -335,7 +323,6 @@ function handleMissingImages() {
     });
 }
 
-// Переключение темной/светлой темы (если нужно)
 const themeToggle = document.querySelector('.theme-toggle');
 if (themeToggle) {
     themeToggle.addEventListener('click', () => {

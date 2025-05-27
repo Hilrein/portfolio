@@ -1,6 +1,4 @@
-/* Современный минималистичный дизайн */
 :root {
-    /* Основные цвета */
     --primary-color: #2c3e50;
     --secondary-color: #3498db;
     --accent-color: #3B82F6;
@@ -9,24 +7,20 @@
     --text-color: #333;
     --text-color-light: #6c757d;
 
-    /* Функциональные цвета */
     --background-color: #fff;
     --background-alt-color: #f8f9fa;
     --border-color: #dee2e6;
 
-    /* Размеры */
     --spacing-unit: 8px;
     --border-radius: 6px;
     --section-padding: 80px 0;
 
-    /* Тени */
     --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     --card-shadow-hover: 0 5px 15px rgba(0, 0, 0, 0.1);
     --card-shadow-stronger: 0 8px 30px rgba(0, 0, 0, 0.1);
     --card-shadow-hover-stronger: 0 15px 35px rgba(0, 0, 0, 0.15);
     --device-mockup-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 
-    /* Типографика */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     --line-height: 1.6;
     --bg-primary: #ffffff;
@@ -103,7 +97,6 @@ section {
     position: relative;
 }
 
-/* Чередующиеся фоны секций */
 section:nth-child(even) {
     background-color: var(--bg-tertiary);
 }
@@ -228,7 +221,6 @@ img {
     display: none;
 }
 
-/* Навигация */
 nav {
     padding: calc(var(--spacing-unit) * 3) 0;
     position: fixed;
@@ -272,7 +264,6 @@ nav .container {
     list-style: none;
 }
 
-/* Адаптивная навигация без бургер-меню */
 @media (max-width: 768px) {
     nav {
         padding: calc(var(--spacing-unit) * 2) 0;
@@ -307,7 +298,6 @@ nav .container {
     }
 }
 
-/* Хедер */
 header {
     padding-top: calc(var(--spacing-unit) * 24);
     padding-bottom: calc(var(--spacing-unit) * 10);
@@ -334,7 +324,6 @@ header p {
     gap: calc(var(--spacing-unit) * 2);
 }
 
-/* Служебные классы */
 .text-accent {
     color: var(--accent-color);
 }
@@ -348,7 +337,6 @@ header p {
     background-color: var(--bg-secondary);
 }
 
-/* Секция "О себе" */
 .about-section {
     background-color: var(--bg-secondary);
     padding: var(--section-padding);
@@ -485,7 +473,6 @@ header p {
     margin: 0;
 }
 
-/* Обновленная секция "Проекты" */
 .projects-section {
     background-color: var(--bg-primary);
     padding: var(--section-padding);
@@ -513,7 +500,6 @@ header p {
 .project-image {
     position: relative;
     padding-top: 75%;
-    /* 4:3 соотношение сторон */
     overflow: hidden;
     background-color: var(--bg-tertiary);
 }
@@ -601,7 +587,6 @@ header p {
     font-weight: 500;
 }
 
-/* Адаптивность для проектов */
 @media (max-width: 1200px) {
     .projects-grid {
         grid-template-columns: repeat(4, 1fr);
@@ -643,7 +628,6 @@ header p {
     }
 }
 
-/* Обновленная секция "Навыки и технологии" */
 .skills-tabs {
     display: flex;
     justify-content: center;
@@ -673,7 +657,6 @@ header p {
     content: '';
     position: absolute;
     bottom: -1px;
-    /* Поднимаем линию подчеркивания на 1px */
     left: 0;
     width: 0;
     height: 3px;
@@ -694,15 +677,12 @@ header p {
 }
 
 .skills-content {
-    /* Возвращаем position: relative и min-height */
     position: relative;
     min-height: 350px;
     overflow: hidden;
-    /* Скрываем неактивные */
 }
 
 .skill-category {
-    /* Возвращаем абсолютное позиционирование и анимацию */
     position: absolute;
     top: 0;
     left: 0;
@@ -711,11 +691,9 @@ header p {
     visibility: hidden;
     transform: translateY(20px);
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s;
-    /* Убираем отступ, т.к. они теперь накладываются */
     margin-bottom: 0;
 }
 
-/* Восстанавливаем стиль для активной категории */
 .skill-category.active {
     opacity: 1;
     visibility: visible;
@@ -723,14 +701,8 @@ header p {
     transition-delay: 0s;
 }
 
-/* Убираем стили для заголовков h3, т.к. они удалены */
-/* .skill-category h3 { ... } */
-/* .skill-category h3::after { ... } */
-
-
 .skills-grid {
     display: grid;
-    /* Возвращаем исходное количество колонок */
     grid-template-columns: repeat(5, 1fr);
     gap: calc(var(--spacing-unit) * 3);
 }
@@ -816,21 +788,17 @@ header p {
     }
 
     .skills-grid {
-        /* Возвращаем 2 колонки */
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
 
     .skills-content {
-        /* Возможно, нужно будет снова увеличить min-height, если контент не влезает */
         min-height: 400px;
     }
 
-    /* Возвращаем стили для мобильных табов */
     .skills-tabs {
         flex-wrap: wrap;
         padding-bottom: 0;
-        /* Убираем нижний паддинг у контейнера табов */
     }
 
     .skill-tab {
@@ -839,25 +807,20 @@ header p {
         flex-grow: 1;
         text-align: center;
         border-bottom: 1px solid var(--border-color);
-        /* Добавляем разделитель */
     }
 
     .skill-tab::after {
         bottom: -1px;
-        /* Корректируем положение линии */
     }
 
     .skill-tab:last-child {
         border-bottom: none;
-        /* Убираем разделитель у последнего таба */
     }
 
     .skills-content {
-        /* Возможно, нужно будет снова увеличить min-height, если контент не влезает */
         min-height: 410px;
     }
 
-    /* .skill-category h3 { font-size: 1.3rem; } - Удаляем */
 
     .key-fact {
         padding: calc(var(--spacing-unit) * 1.5);
@@ -931,7 +894,6 @@ header p {
     }
 }
 
-/* Обновленная секция "Связаться со мной" */
 .contact-section {
     padding: 100px 0;
     position: relative;
@@ -1174,7 +1136,6 @@ header p {
     font-size: 16px;
 }
 
-/* Обновленный футер */
 footer {
     background-color: var(--text-primary);
     color: var(--bg-primary);
@@ -1364,7 +1325,6 @@ a.back-to-top::after {
     display: none;
 }
 
-/* Media Queries for Contact and Footer */
 @media (max-width: 992px) {
     .contact-content {
         grid-template-columns: 1fr;
@@ -1572,7 +1532,6 @@ a.back-to-top::after {
     margin: 0;
 }
 
-/* Медиа-запросы для контактных карточек */
 @media (max-width: 768px) {
     .contact-methods-grid {
         grid-template-columns: 1fr;
@@ -1592,7 +1551,6 @@ a.back-to-top::after {
     }
 }
 
-/* Адаптивность для контейнера */
 @media (max-width: 1200px) {
     :root {
         --container-width: 960px;
@@ -1750,10 +1708,8 @@ a.back-to-top::after {
     }
 }
 
-/* Добавим оптимизацию для мобильных устройств */
 @media (hover: none) {
 
-    /* Отключаем hover-эффекты на мобильных устройствах */
     .btn:hover:after,
     .project-item:hover .project-overlay,
     .skill-item:hover .skill-icon,
@@ -1779,7 +1735,6 @@ a.back-to-top::after {
     }
 }
 
-/* Оптимизация для экранов с высоким разрешением */
 @media (min-width: 1400px) {
     :root {
         --container-width: 1320px;
